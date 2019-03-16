@@ -3,8 +3,13 @@ package com.chujianyun.field2hash;
 import com.chujianyun.field2hash.annotation.Field2Hash;
 import lombok.Data;
 
+/**
+ * Cat测试实体
+ *
+ * @author liuwangyang
+ * @date 2019年03月16日
+ */
 @Data
-
 public class Cat implements Cloneable {
     private String name;
 

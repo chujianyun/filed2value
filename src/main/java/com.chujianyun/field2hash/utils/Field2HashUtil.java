@@ -1,13 +1,56 @@
 package com.chujianyun.field2hash.utils;
 
-
 import com.chujianyun.field2hash.annotation.Field2Hash;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.*;
+/**
+ * 对象属性名到其值得hash值映射工具
+ *
+ * @author liuwangyang
+ * @date 2019年03月16日
+ */
+public class Field2HashUtil {
 
-public class FieldUtil {
+    /**
+     * 根据对象和属性到值得哈希映射map，获取指定key的值
+     *
+     * @param object           对象
+     * @param fieldNameOrAlias 属性名或别名
+     * @return 该属性的值
+     */
+    public static Object getValueByFieldNameOrAlias(Object object, String fieldNameOrAlias) throws IllegalAccessException {
+        Class<?> clazz = object.getClass();
+        Field[] declaredFields = clazz.getDeclaredFields();
+
+        Field field2resolve = null;
+        for (Field field : declaredFields) {
+            // 直接属性名相同
+            if (field.getName().equals(fieldNameOrAlias)) {
+                field2resolve = field;
+                break;
+            }
+            // 别名相同
+            if (field.isAnnotationPresent(Field2Hash.class)) {
+                Field2Hash annotation = field.getAnnotation(Field2Hash.class);
+                String alias = annotation.alias();
+                if (!"".equals(alias) && alias.equals(fieldNameOrAlias)) {
+                    field2resolve = field;
+                    break;
+                }
+            }
+
+        }
+        if (field2resolve != null) {
+            field2resolve.setAccessible(true);
+            return field2resolve.get(object);
+        }
+        return null;
+    }
 
 
     /**

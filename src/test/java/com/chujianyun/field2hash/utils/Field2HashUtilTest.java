@@ -10,7 +10,13 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class FieldUtilTest {
+/**
+ * Field2HashUtil测试类
+ *
+ * @author liuwangyang
+ * @date 2019年03月16日
+ */
+public class Field2HashUtilTest {
 
     private Cat cat = null;
 
@@ -29,19 +35,17 @@ public class FieldUtilTest {
     @Test
     public void filed2hashTest() throws IllegalAccessException {
 
-        Map<String, Integer> field2HashPair = FieldUtil.getField2HashPair(cat, false);
+        Map<String, Integer> field2HashPair = Field2HashUtil.getField2HashPair(cat, false);
         System.out.println("修改前" + field2HashPair);
 
         cat.setOwnerName("张无忌");
 
-        Map<String, Integer> field2HashPair2 = FieldUtil.getField2HashPair(cat, false);
+        Map<String, Integer> field2HashPair2 = Field2HashUtil.getField2HashPair(cat, false);
         System.out.println("修改后" + field2HashPair2);
     }
 
     /**
      * 获取属性值不同的属性名
-     *
-     * @throws IllegalAccessException
      */
     @Test
     public void getDifferentValueFieldNames() throws IllegalAccessException {
@@ -49,9 +53,13 @@ public class FieldUtilTest {
         Cat catClone = ObjectUtils.clone(cat);
 
         catClone.setOwnerName("张无忌");
-        Set<String> differentValueFieldNames = FieldUtil.getDifferentValueFieldNames(cat, catClone, false, true);
+        Set<String> differentValueFieldNames = Field2HashUtil.getDifferentValueFieldNames(cat, catClone, false, true);
         System.out.println(differentValueFieldNames);
         assertEquals(differentValueFieldNames.size(), 1);
+
+        for (String fieldNameOrAlias : differentValueFieldNames) {
+            System.out.println(Field2HashUtil.getValueByFieldNameOrAlias(catClone, fieldNameOrAlias));
+        }
     }
 
     /**
@@ -59,7 +67,7 @@ public class FieldUtilTest {
      */
     @Test
     public void getField2HashPair() throws IllegalAccessException {
-        Map<String, Integer> field2HashPair1 = FieldUtil.getField2HashPair(cat, false);
+        Map<String, Integer> field2HashPair1 = Field2HashUtil.getField2HashPair(cat, false);
         System.out.println(field2HashPair1);
         assertNull(field2HashPair1.get(age));
     }
@@ -69,7 +77,7 @@ public class FieldUtilTest {
      */
     @Test
     public void getField2HashPairAllFields() throws IllegalAccessException {
-        Map<String, Integer> field2HashPair = FieldUtil.getField2HashPair(cat, true);
+        Map<String, Integer> field2HashPair = Field2HashUtil.getField2HashPair(cat, true);
         System.out.println(field2HashPair);
         assertNotEquals(field2HashPair.get(age), "1");
     }
