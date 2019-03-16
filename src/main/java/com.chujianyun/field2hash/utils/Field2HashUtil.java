@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 对象属性名到其值得hash值映射工具
  *
- * @author liuwangyang
+ * @author liuwangyangedu@163.com
  * @date 2019年03月16日
  */
 public class Field2HashUtil {

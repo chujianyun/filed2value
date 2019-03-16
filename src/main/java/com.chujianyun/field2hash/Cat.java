@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * Cat测试实体
  *
- * @author liuwangyang
+ * @author liuwangyangedu@163.com
  * @date 2019年03月16日
  */
 @Data

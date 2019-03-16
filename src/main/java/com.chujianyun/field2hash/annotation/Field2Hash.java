@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * 待校验的属性
  * 允许指定别名
  *
- * @author liuwangyang
+ * @author liuwangyangedu@163.com
  * @date 2019年03月16日
  */
 @Target(ElementType.FIELD)
