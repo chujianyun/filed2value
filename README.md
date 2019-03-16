@@ -1,0 +1,2 @@
+# filed2hash
+将对象的特定属性转为field到value的hashcode映射
