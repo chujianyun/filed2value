@@ -52,7 +52,7 @@ public class Field2ValueUtil {
     }
 
     /**
-     * 根据对象和属性到值得哈希映射map，获取指定key的值
+     * 根据属性的名称或者别名的名称获取属性的值
      *
      * @param object           对象
      * @param fieldNameOrAlias 属性名或别名
