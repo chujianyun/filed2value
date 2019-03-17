@@ -12,7 +12,7 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 /**
- * Field2HashUtil测试类
+ * Field2ValueUtil测试类
  *
  * @author liuwangyangedu@163.com
  * @date 2019年03月16日
