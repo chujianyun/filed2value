@@ -19,7 +19,8 @@ public class Field2HashUtil {
 
     /**
      * 根据对象和属性名+别名的集合获取属性集合
-     * @param object 待解析的对象
+     *
+     * @param object            待解析的对象
      * @param fieldOrAliasNames 属性名或者别名的集合
      * @return 属性集合
      */
@@ -36,7 +37,7 @@ public class Field2HashUtil {
             if (field.isAnnotationPresent(Field2Hash.class)) {
                 Field2Hash annotation = field.getAnnotation(Field2Hash.class);
                 String alias = annotation.alias();
-                if (fieldOrAliasNames.contains(alias)|| fieldOrAliasNames.contains(field.getName())) {
+                if (fieldOrAliasNames.contains(alias) || fieldOrAliasNames.contains(field.getName())) {
                     fields2get.add(field);
                     break;
                 }
@@ -96,10 +97,10 @@ public class Field2HashUtil {
      */
     public static Set<String> getDifferentValueFieldOrAliasNames(Object object1, Object object2, boolean resolveAllField, boolean onlyCompareCommonFields) throws IllegalAccessException {
 
-        Map<String, Integer> field2HashPair1 = getField2HashPair(object1, resolveAllField);
-        Set<String> keySet1 = field2HashPair1.keySet();
-        Map<String, Integer> field2HashPair2 = getField2HashPair(object2, resolveAllField);
-        Set<String> keySet2 = field2HashPair2.keySet();
+        Map<String, Object> field2ValuePair1 = getField2ValuePair(object1, resolveAllField);
+        Set<String> keySet1 = field2ValuePair1.keySet();
+        Map<String, Object> field2ValuePair2 = getField2ValuePair(object2, resolveAllField);
+        Set<String> keySet2 = field2ValuePair2.keySet();
 
         if (keySet1.isEmpty()) {
             return keySet2;
@@ -110,14 +111,17 @@ public class Field2HashUtil {
         }
 
         Set<String> fieldsWithDifferentValue = new HashSet<>();
+
         // 只比较公共属性
-
-        for (Map.Entry<String, Integer> entry : field2HashPair1.entrySet()) {
+        for (Map.Entry<String, Object> entry : field2ValuePair1.entrySet()) {
             String fieldName = entry.getKey();
-            Integer hashCode = entry.getValue();
+            Object value1 = entry.getValue();
 
-            Integer hashCode2 = field2HashPair2.get(fieldName);
-            if (!hashCode.equals(hashCode2)) {
+            Object value2 = field2ValuePair2.get(fieldName);
+
+            boolean sameHashCode = (value1.hashCode() == value2.hashCode());
+            boolean sameObject = value1.equals(value2);
+            if (!(sameHashCode && sameObject)) {
                 fieldsWithDifferentValue.add(fieldName);
             }
         }
@@ -136,7 +140,7 @@ public class Field2HashUtil {
     }
 
     /**
-     * 获取属性及其对应值得hash值
+     * 获取属性及其对应值得hash值（可能有hash冲突，谨慎使用）
      *
      * @param resolveAllField 解析所有属性
      * @return 属性--> 值hash
@@ -147,15 +151,34 @@ public class Field2HashUtil {
             return new HashMap<>(0);
         }
 
+        Map<String, Object> field2ValuePair = getField2ValuePair(object, resolveAllField);
+        Map<String, Integer> field2hashPairMap = new HashMap<>(field2ValuePair.size());
+
+        field2ValuePair.forEach((key, value) -> field2hashPairMap.put(key, value.hashCode()));
+        return field2hashPairMap;
+    }
+
+    /**
+     * 获取属性及其对应值的映射（推荐使用）
+     *
+     * @param resolveAllField 解析所有属性
+     * @return 属性--> 值hash
+     */
+    public static <T> Map<String, Object> getField2ValuePair(T object, boolean resolveAllField) throws IllegalAccessException {
+
+        if (object == null) {
+            return new HashMap<>(0);
+        }
+
         Class<?> clazz = object.getClass();
         Field[] declaredFields = clazz.getDeclaredFields();
-        Map<String, Integer> field2hashMap = new HashMap<>(declaredFields.length);
+        Map<String, Object> field2hashMap = new HashMap<>(declaredFields.length);
         for (Field field : declaredFields) {
             field.setAccessible(true);
             String key = field.getName();
 
             if (resolveAllField) {
-                field2hashMap.put(key, field.get(object).hashCode());
+                field2hashMap.put(key, field.get(object));
                 continue;
             }
 
@@ -165,11 +188,10 @@ public class Field2HashUtil {
                 if (!"".equals(alias)) {
                     key = alias;
                 }
-                field2hashMap.put(key, field.get(object).hashCode());
+                field2hashMap.put(key, field.get(object));
             }
         }
         return field2hashMap;
     }
-
 
 }
