@@ -1,6 +1,6 @@
-package com.chujianyun.field2hash.utils;
+package com.chujianyun.field2value.utils;
 
-import com.chujianyun.field2hash.Cat;
+import com.chujianyun.field2value.Cat;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Before;
 import org.junit.Test;

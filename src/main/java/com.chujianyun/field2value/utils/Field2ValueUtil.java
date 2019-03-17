@@ -1,6 +1,6 @@
-package com.chujianyun.field2hash.utils;
+package com.chujianyun.field2value.utils;
 
-import com.chujianyun.field2hash.annotation.Field2Value;
+import com.chujianyun.field2value.annotation.Field2Value;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

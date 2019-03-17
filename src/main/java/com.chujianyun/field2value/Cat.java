@@ -1,6 +1,6 @@
-package com.chujianyun.field2hash;
+package com.chujianyun.field2value;
 
-import com.chujianyun.field2hash.annotation.Field2Value;
+import com.chujianyun.field2value.annotation.Field2Value;
 import lombok.Data;
 
 /**

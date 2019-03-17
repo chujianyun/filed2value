@@ -1,4 +1,4 @@
-package com.chujianyun.field2hash.annotation;
+package com.chujianyun.field2value.annotation;
 
 import java.lang.annotation.*;
 
