@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,13 +54,19 @@ public class Field2HashUtilTest {
         Cat catClone = ObjectUtils.clone(cat);
 
         catClone.setOwnerName("张无忌");
-        Set<String> differentValueFieldNames = Field2HashUtil.getDifferentValueFieldNames(cat, catClone, false, true);
-        System.out.println(differentValueFieldNames);
-        assertEquals(differentValueFieldNames.size(), 1);
+        // 两个对象不同的属性名活别名集合
+        Set<String> differentValueFieldOrAliaNames = Field2HashUtil.getDifferentValueFieldOrAliasNames(cat, catClone, false, true);
+        System.out.println(differentValueFieldOrAliaNames);
+        assertEquals(differentValueFieldOrAliaNames.size(), 1);
 
-        for (String fieldNameOrAlias : differentValueFieldNames) {
+        // 属性名或别名集合
+        for (String fieldNameOrAlias : differentValueFieldOrAliaNames) {
             System.out.println(Field2HashUtil.getValueByFieldNameOrAlias(catClone, fieldNameOrAlias));
         }
+
+        // 属性集合
+        Set<Field> fieldsByFieldOrAliasNames = Field2HashUtil.getFieldsByFieldOrAliasNames(catClone, differentValueFieldOrAliaNames);
+         System.out.println(fieldsByFieldOrAliasNames);
     }
 
     /**

@@ -16,6 +16,39 @@ import java.util.Set;
  */
 public class Field2HashUtil {
 
+
+    /**
+     * 根据对象和属性名+别名的集合获取属性集合
+     * @param object 待解析的对象
+     * @param fieldOrAliasNames 属性名或者别名的集合
+     * @return 属性集合
+     */
+    public static Set<Field> getFieldsByFieldOrAliasNames(Object object, Set<String> fieldOrAliasNames) {
+        if (object == null || fieldOrAliasNames == null || fieldOrAliasNames.isEmpty()) {
+            return new HashSet<>(0);
+        }
+
+        Set<Field> fields2get = new HashSet<>(fieldOrAliasNames.size());
+        Class<?> clazz = object.getClass();
+        Field[] declaredFields = clazz.getDeclaredFields();
+        for (Field field : declaredFields) {
+            // 带注解
+            if (field.isAnnotationPresent(Field2Hash.class)) {
+                Field2Hash annotation = field.getAnnotation(Field2Hash.class);
+                String alias = annotation.alias();
+                if (fieldOrAliasNames.contains(alias)|| fieldOrAliasNames.contains(field.getName())) {
+                    fields2get.add(field);
+                    break;
+                }
+            } else {
+                if (fieldOrAliasNames.contains(field.getName())) {
+                    fields2get.add(field);
+                }
+            }
+        }
+        return fields2get;
+    }
+
     /**
      * 根据对象和属性到值得哈希映射map，获取指定key的值
      *
@@ -61,7 +94,7 @@ public class Field2HashUtil {
      * @param onlyCompareCommonFields 设计费
      * @return 属性的值不同的所有属性名称
      */
-    public static Set<String> getDifferentValueFieldNames(Object object1, Object object2, boolean resolveAllField, boolean onlyCompareCommonFields) throws IllegalAccessException {
+    public static Set<String> getDifferentValueFieldOrAliasNames(Object object1, Object object2, boolean resolveAllField, boolean onlyCompareCommonFields) throws IllegalAccessException {
 
         Map<String, Integer> field2HashPair1 = getField2HashPair(object1, resolveAllField);
         Set<String> keySet1 = field2HashPair1.keySet();
