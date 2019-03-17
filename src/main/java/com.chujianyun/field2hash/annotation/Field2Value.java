@@ -12,6 +12,6 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Field2Hash {
+public @interface Field2Value {
     String alias() default "";
 }

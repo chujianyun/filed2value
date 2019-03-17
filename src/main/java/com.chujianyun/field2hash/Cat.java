@@ -1,6 +1,6 @@
 package com.chujianyun.field2hash;
 
-import com.chujianyun.field2hash.annotation.Field2Hash;
+import com.chujianyun.field2hash.annotation.Field2Value;
 import lombok.Data;
 
 /**
@@ -15,10 +15,10 @@ public class Cat implements Cloneable {
 
     private Byte age;
 
-    @Field2Hash(alias = "nick")
+    @Field2Value(alias = "nick")
     private String nickName;
 
-    @Field2Hash
+    @Field2Value
     private String ownerName;
 
     @Override

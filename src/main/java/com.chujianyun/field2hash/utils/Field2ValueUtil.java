@@ -1,6 +1,6 @@
 package com.chujianyun.field2hash.utils;
 
-import com.chujianyun.field2hash.annotation.Field2Hash;
+import com.chujianyun.field2hash.annotation.Field2Value;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 对象属性名到其值得hash值映射工具
+ * 对象属性名到其值的映射工具
+ * 可用来
  *
  * @author liuwangyangedu@163.com
  * @date 2019年03月16日
  */
-public class Field2HashUtil {
+public class Field2ValueUtil {
 
 
     /**
@@ -34,8 +35,8 @@ public class Field2HashUtil {
         Field[] declaredFields = clazz.getDeclaredFields();
         for (Field field : declaredFields) {
             // 带注解
-            if (field.isAnnotationPresent(Field2Hash.class)) {
-                Field2Hash annotation = field.getAnnotation(Field2Hash.class);
+            if (field.isAnnotationPresent(Field2Value.class)) {
+                Field2Value annotation = field.getAnnotation(Field2Value.class);
                 String alias = annotation.alias();
                 if (fieldOrAliasNames.contains(alias) || fieldOrAliasNames.contains(field.getName())) {
                     fields2get.add(field);
@@ -69,8 +70,8 @@ public class Field2HashUtil {
                 break;
             }
             // 别名相同
-            if (field.isAnnotationPresent(Field2Hash.class)) {
-                Field2Hash annotation = field.getAnnotation(Field2Hash.class);
+            if (field.isAnnotationPresent(Field2Value.class)) {
+                Field2Value annotation = field.getAnnotation(Field2Value.class);
                 String alias = annotation.alias();
                 if (!"".equals(alias) && alias.equals(fieldNameOrAlias)) {
                     field2resolve = field;
@@ -182,8 +183,8 @@ public class Field2HashUtil {
                 continue;
             }
 
-            if (field.isAnnotationPresent(Field2Hash.class)) {
-                Field2Hash annotation = field.getAnnotation(Field2Hash.class);
+            if (field.isAnnotationPresent(Field2Value.class)) {
+                Field2Value annotation = field.getAnnotation(Field2Value.class);
                 String alias = annotation.alias();
                 if (!"".equals(alias)) {
                     key = alias;
