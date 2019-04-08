@@ -14,6 +14,8 @@ import java.util.Set;
  * <p>
  * 可用来比较值发生了变化的属性
  *
+ *  {@link <a herf="https://blog.csdn.net/w605283073/article/details/88606762"></a>}
+ *
  * @author liuwangyangedu@163.com
  * @date 2019年03月16日
  */
