@@ -1,6 +1,7 @@
 package com.chujianyun.field2value;
 
 import com.chujianyun.field2value.annotation.Field2Value;
+import com.chujianyun.field2value.annotation.Ignore;
 import lombok.Data;
 
 /**
@@ -20,6 +21,9 @@ public class Cat implements Cloneable {
 
     @Field2Value
     private String ownerName;
+
+    @Ignore
+    private String role;
 
     @Override
     public Object clone() throws CloneNotSupportedException {

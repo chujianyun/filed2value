@@ -1,6 +1,7 @@
 package com.chujianyun.field2value.utils;
 
 import com.chujianyun.field2value.annotation.Field2Value;
+import com.chujianyun.field2value.annotation.Ignore;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -163,7 +164,7 @@ public class Field2ValueUtil {
      * 获取属性及其对应值的映射（推荐使用）
      *
      * @param resolveAllField 解析所有属性
-     * @return 属性--> 值hash
+     * @return 属性--> 值
      */
     public static <T> Map<String, Object> getField2ValuePair(T object, boolean resolveAllField) throws IllegalAccessException {
 
@@ -178,11 +179,18 @@ public class Field2ValueUtil {
             field.setAccessible(true);
             String key = field.getName();
 
+            // 忽略的属性
+            if (field.isAnnotationPresent(Ignore.class)) {
+                continue;
+            }
+
+            // 解析所有
             if (resolveAllField) {
                 field2hashMap.put(key, field.get(object));
                 continue;
             }
 
+            // 只解析带@Field2Value注解的
             if (field.isAnnotationPresent(Field2Value.class)) {
                 Field2Value annotation = field.getAnnotation(Field2Value.class);
                 String alias = annotation.alias();
