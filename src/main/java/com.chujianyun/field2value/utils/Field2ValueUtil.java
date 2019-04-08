@@ -11,7 +11,8 @@ import java.util.Set;
 
 /**
  * 对象属性名到其值的映射工具
- * 可用来
+ * <p>
+ * 可用来比较值发生了变化的属性
  *
  * @author liuwangyangedu@163.com
  * @date 2019年03月16日
